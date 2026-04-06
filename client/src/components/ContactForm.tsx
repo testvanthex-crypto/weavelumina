@@ -1,11 +1,10 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { toast } from 'sonner';
 import { trpc } from '@/lib/trpc';
-import type { TRPCClientErrorLike } from '@trpc/client';
 
 interface ContactFormProps {
   selectedPlan?: string | null;
@@ -20,6 +19,12 @@ export default function ContactForm({ selectedPlan, onSuccess }: ContactFormProp
     plan: selectedPlan || '',
     message: '',
   });
+
+  useEffect(() => {
+    if (selectedPlan) {
+      setFormData((prev) => ({ ...prev, plan: selectedPlan }));
+    }
+  }, [selectedPlan]);
 
   const createLeadMutation = trpc.leads.create.useMutation({
     onSuccess: () => {
@@ -88,17 +93,24 @@ export default function ContactForm({ selectedPlan, onSuccess }: ContactFormProp
         required
       />
 
-      <Select value={formData.plan} onValueChange={handlePlanChange}>
-        <SelectTrigger className="bg-[#1a1a1a] border-[#2a2a2a] text-white">
-          <SelectValue placeholder="Select a plan" />
-        </SelectTrigger>
-        <SelectContent className="bg-[#1a1a1a] border-[#2a2a2a]">
-          <SelectItem value="Spark Starter">Spark Starter — $99</SelectItem>
-          <SelectItem value="Growth Accelerator">Growth Accelerator — $199</SelectItem>
-          <SelectItem value="Boost Builder">Boost Builder — $249</SelectItem>
-          <SelectItem value="Custom Project">Custom Project</SelectItem>
-        </SelectContent>
-      </Select>
+      {selectedPlan ? (
+        <div className="rounded-xl border border-[#2a2a2a] bg-[#111] p-4">
+          <p className="text-sm text-gray-400">Selected plan</p>
+          <p className="mt-2 text-white font-semibold">{selectedPlan}</p>
+        </div>
+      ) : (
+        <Select value={formData.plan} onValueChange={handlePlanChange}>
+          <SelectTrigger className="bg-[#1a1a1a] border-[#2a2a2a] text-white">
+            <SelectValue placeholder="Select a plan" />
+          </SelectTrigger>
+          <SelectContent className="bg-[#1a1a1a] border-[#2a2a2a]">
+            <SelectItem value="Spark Starter">Spark Starter — $99</SelectItem>
+            <SelectItem value="Growth Accelerator">Growth Accelerator — $199</SelectItem>
+            <SelectItem value="Boost Builder">Boost Builder — $249</SelectItem>
+            <SelectItem value="Custom Project">Custom Project</SelectItem>
+          </SelectContent>
+        </Select>
+      )}
 
       <Textarea
         name="message"

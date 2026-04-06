@@ -140,7 +140,7 @@ export const appRouter = router({
   payments: router({
     createOrder: protectedProcedure
       .input(z.object({
-        plan: z.enum(["Basic Care", "Business Care", "Premium Growth Care"]),
+        plan: z.enum(["Spark Starter", "Business Booster", "Growth Accelerator"]),
         idempotencyKey: z.string().min(1),
       }))
       .mutation(async ({ input, ctx }) => {
@@ -155,9 +155,9 @@ export const appRouter = router({
         }
 
         const priceMap: Record<string, number> = {
-          "Basic Care": 4900,
-          "Business Care": 12900,
-          "Premium Growth Care": 29900,
+          "Spark Starter": 79900,
+          "Business Booster": 159900,
+          "Growth Accelerator": 199900,
         };
         const amount = priceMap[input.plan] ?? 0;
 

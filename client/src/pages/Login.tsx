@@ -116,6 +116,7 @@ export default function Login() {
             {(["login", "register"] as Mode[]).map(tab => (
               <button
                 key={tab}
+                type="button"
                 onClick={() => setMode(tab)}
                   className={`flex-1 py-2 rounded-full text-sm font-medium transition-all ${
                     mode === tab
