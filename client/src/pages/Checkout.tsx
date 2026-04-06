@@ -8,6 +8,7 @@ import { Separator } from "@/components/ui/separator";
 import { Check, Sparkles } from "lucide-react";
 import ContactForm from "@/components/ContactForm";
 import { trpc } from "@/lib/trpc";
+import { supabase } from "@/lib/supabase";
 
 const PLANS = [
   { id: "spark", name: "Spark Starter", price: 799, desc: "For early-stage brands needing a polished launchpad." },
@@ -170,6 +171,23 @@ export default function Checkout() {
                   plan: plan.name as any, 
                   idempotencyKey: crypto.randomUUID() 
                 });
+                // Send order to Supabase
+                const { error: supabaseError } = await supabase
+                  .from('orders')
+                  .insert([
+                    {
+                      plan: plan.name,
+                      subtotal,
+                      discount,
+                      total,
+                      coupon: applied,
+                      order_id: orderId,
+                      email: "weavelumina@gmail.com", // Replace with real email if available
+                    }
+                  ]);
+                if (supabaseError) {
+                  setError("Order saved, but failed to sync with Supabase: " + supabaseError.message);
+                }
                 const infinity = new (window as any).Infinity({
                   key: keyId,
                   amount,

@@ -9,6 +9,8 @@ import "./index.css";
 
 const queryClient = new QueryClient();
 
+const basePath = import.meta.env.BASE_URL || '/';
+
 const redirectToLoginIfUnauthorized = (error: unknown) => {
   if (!(error instanceof TRPCClientError)) return;
   if (typeof window === "undefined") return;
@@ -17,7 +19,7 @@ const redirectToLoginIfUnauthorized = (error: unknown) => {
 
   if (!isUnauthorized) return;
 
-  window.location.href = "/login";
+  window.location.href = `${basePath}#login`;
 };
 
 queryClient.getQueryCache().subscribe(event => {
@@ -39,7 +41,10 @@ queryClient.getMutationCache().subscribe(event => {
 const trpcClient = trpc.createClient({
   links: [
     httpBatchLink({
-      url: "/api/trpc",
+      url:
+        process.env.NODE_ENV === "production"
+          ? "https://weavelumina.vercel.app/api/trpc"
+          : "/api/trpc",
       transformer: superjson,
       fetch(input, init) {
         return globalThis.fetch(input, {

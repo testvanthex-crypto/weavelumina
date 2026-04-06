@@ -847,11 +847,11 @@ export default function ComponentsShowcase() {
                   <Breadcrumb>
                     <BreadcrumbList>
                       <BreadcrumbItem>
-                        <BreadcrumbLink href="/">Home</BreadcrumbLink>
+                        <BreadcrumbLink href={import.meta.env.BASE_URL || '/'}>Home</BreadcrumbLink>
                       </BreadcrumbItem>
                       <BreadcrumbSeparator />
                       <BreadcrumbItem>
-                        <BreadcrumbLink href="/components">
+                        <BreadcrumbLink href={`${import.meta.env.BASE_URL || '/'}components`}>
                           Components
                         </BreadcrumbLink>
                       </BreadcrumbItem>

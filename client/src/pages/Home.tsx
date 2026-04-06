@@ -2,6 +2,7 @@ import { useEffect, useRef, useState, useCallback } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import * as THREE from 'three';
+import { useLocation } from 'wouter';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import ContactForm from '@/components/ContactForm';
@@ -259,11 +260,12 @@ export default function Home() {
   const [selectedPlan, setSelectedPlan] = useState<string | null>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeNav, setActiveNav] = useState('home');
+  const [, setLocation] = useLocation();
 
   const handlePlanSelect = useCallback((name: string) => {
     setSelectedPlan(name);
-    window.location.href = '/checkout';
-  }, []);
+    setLocation('/checkout');
+  }, [setLocation]);
 
   const scrollTo = useCallback((id: string) => {
     const el = document.getElementById(id);
@@ -476,13 +478,13 @@ export default function Home() {
           </div>
           <div className="hidden md:flex items-center gap-3">
             <button
-              onClick={() => { window.location.href = '/login'; }}
+              onClick={() => { setLocation('/login'); }}
               className="btn-ripple border border-[#C9A84C]/40 text-[#C9A84C] px-4 py-2 rounded-lg text-sm font-semibold hover:bg-[#C9A84C]/10 transition-colors interactive"
             >
               CLIENT LOGIN
             </button>
             <button
-              onClick={() => { window.location.href = '/checkout'; }}
+              onClick={() => { setLocation('/checkout'); }}
               className="btn-ripple border border-[#C9A84C]/40 text-[#C9A84C] px-4 py-2 rounded-lg text-sm font-semibold hover:bg-[#C9A84C]/10 transition-colors interactive"
             >
               CHECKOUT
@@ -516,13 +518,13 @@ export default function Home() {
             </button>
           ))}
           <button
-            onClick={() => { setMobileMenuOpen(false); window.location.href = '/login'; }}
+            onClick={() => { setMobileMenuOpen(false); setLocation('/login'); }}
             className="text-xl text-[#C9A84C] hover:text-white transition-colors uppercase tracking-widest"
           >
             Client Login
           </button>
           <button
-            onClick={() => { setMobileMenuOpen(false); window.location.href = '/checkout'; }}
+            onClick={() => { setMobileMenuOpen(false); setLocation('/checkout'); }}
             className="text-xl text-[#C9A84C] hover:text-white transition-colors uppercase tracking-widest"
           >
             Checkout

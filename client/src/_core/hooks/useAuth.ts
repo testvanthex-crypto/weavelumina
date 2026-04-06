@@ -56,17 +56,22 @@ export function useAuth(options?: UseAuthOptions) {
     ]
   );
 
+  const baseHref = import.meta.env.BASE_URL || "/";
+  const resolvedRedirectPath = redirectPath.startsWith("/")
+    ? `${baseHref}#${redirectPath.slice(1)}`
+    : redirectPath;
+
   useEffect(() => {
     if (!redirectOnUnauthenticated) return;
     if (meQuery.isLoading || logoutMutation.isPending) return;
     if (state.user) return;
     if (typeof window === "undefined") return;
-    if (window.location.pathname === redirectPath) return;
+    if (window.location.href === resolvedRedirectPath) return;
 
-    window.location.href = redirectPath
+    window.location.href = resolvedRedirectPath;
   }, [
     redirectOnUnauthenticated,
-    redirectPath,
+    resolvedRedirectPath,
     logoutMutation.isPending,
     meQuery.isLoading,
     state.user,
