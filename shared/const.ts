@@ -1,0 +1,9 @@
+export const ACCESS_COOKIE_NAME = "lw_at"; // access token (short lived)
+export const REFRESH_COOKIE_NAME = "lw_rt"; // refresh token (rotated)
+export const ACCESS_TOKEN_TTL_MS = 15 * 60 * 1000; // 15 minutes
+export const REFRESH_TOKEN_TTL_MS = 7 * 24 * 60 * 60 * 1000; // 7 days
+export const SESSION_IDLE_TIMEOUT_MS = 24 * 60 * 60 * 1000; // 24h idle timeout
+export const SESSION_ABSOLUTE_TIMEOUT_MS = 7 * 24 * 60 * 60 * 1000; // absolute cap
+export const AXIOS_TIMEOUT_MS = 30_000;
+export const UNAUTHED_ERR_MSG = 'Please login (10001)';
+export const NOT_ADMIN_ERR_MSG = 'You do not have required permission (10002)';

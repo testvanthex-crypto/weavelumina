@@ -1,0 +1,32 @@
+services:
+  - type: web
+    name: luminaweave-pro
+    env: node
+    plan: starter
+    branch: main
+    autoDeploy: true
+    buildCommand: pnpm install && pnpm build
+    startCommand: pnpm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: JWT_SECRET
+        sync: false
+      - key: DATABASE_URL
+        sync: false
+      - key: ALLOWED_ORIGINS
+        value: https://your-frontend.com
+      - key: COOKIE_DOMAIN
+        value: your-frontend.com
+      - key: REDIS_URL
+        sync: false
+      - key: OWNER_OPEN_ID
+        sync: false
+      - key: BUILT_IN_FORGE_API_URL
+        sync: false
+      - key: BUILT_IN_FORGE_API_KEY
+        sync: false
+      - key: INFINITY_KEY_ID
+        sync: false
+      - key: INFINITY_KEY_SECRET
+        sync: false

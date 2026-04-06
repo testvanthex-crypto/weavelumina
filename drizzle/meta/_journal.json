@@ -1,0 +1,27 @@
+{
+  "version": "7",
+  "dialect": "mysql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1775368237051,
+      "tag": "0000_freezing_angel",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1775368452974,
+      "tag": "0001_bent_blizzard",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1775370000000,
+      "tag": "0002_secure_passwords",
+      "breakpoints": true
+    }
+  ]
+}
