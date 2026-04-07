@@ -1,10 +1,13 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
+import { useAuth } from '@/_core/hooks/useAuth';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import { User } from 'lucide-react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import * as THREE from 'three';
 import { useLocation } from 'wouter';
 import { Button } from '@/components/ui/button';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import ContactForm from '@/components/ContactForm';
 import { ChevronsDown } from 'lucide-react';
 
@@ -253,6 +256,8 @@ function TestimonialCard({ testimonial, index }: { testimonial: typeof TESTIMONI
 
 /* ===== MAIN HOME COMPONENT ===== */
 export default function Home() {
+  const { user } = useAuth();
+  const [profileOpen, setProfileOpen] = useState(false);
   const threeCanvasRef = useRef<HTMLCanvasElement>(null);
   const [preloaderDone, setPreloaderDone] = useState(false);
   const [preloaderProgress, setPreloaderProgress] = useState(0);
@@ -274,6 +279,11 @@ export default function Home() {
       setMobileMenuOpen(false);
     }
   }, []);
+
+  /* ===== PROFILE BUTTON (TOP RIGHT) ===== */
+  // Only show when logged in
+  // Place at top right, floating, styled with palette and fade-in
+  // Dialog matches dashboard style
 
   /* ===== PRELOADER ===== */
   useEffect(() => {
@@ -444,6 +454,43 @@ export default function Home() {
 
   return (
     <>
+      {user && (
+        <div className="fixed top-6 right-6 z-50 animate-fade-in">
+          <button
+            onClick={() => setProfileOpen(true)}
+            className="flex items-center gap-2 px-4 py-2 rounded-full bg-[#111] border border-[#C9A84C] shadow-lg hover:bg-[#222] transition-all group"
+            style={{ boxShadow: '0 2px 16px 0 rgba(201,168,76,0.10)' }}
+          >
+            <Avatar className="h-7 w-7 border border-[#C9A84C]">
+              <AvatarFallback className="text-base font-bold text-[#C9A84C] bg-[#222]">
+                {user?.name?.charAt(0).toUpperCase() || user?.email?.charAt(0).toUpperCase() || "U"}
+              </AvatarFallback>
+            </Avatar>
+            <span className="text-[#C9A84C] font-semibold group-hover:text-[#D4B85C] transition-colors">Profile</span>
+            <User className="h-4 w-4 text-[#C9A84C] group-hover:scale-110 transition-transform duration-300" />
+          </button>
+          <Dialog open={profileOpen} onOpenChange={setProfileOpen}>
+            <DialogContent className="max-w-xs bg-[#111] border border-[#C9A84C] animate-fade-in rounded-xl shadow-2xl">
+              <DialogHeader>
+                <DialogTitle className="text-[#C9A84C] text-lg flex items-center gap-2">
+                  <User className="h-5 w-5" /> My Profile
+                </DialogTitle>
+              </DialogHeader>
+              <div className="flex flex-col items-center gap-3 py-2">
+                <Avatar className="h-14 w-14 border border-[#C9A84C]">
+                  <AvatarFallback className="text-2xl font-bold text-[#C9A84C] bg-[#222]">
+                    {user?.name?.charAt(0).toUpperCase() || user?.email?.charAt(0).toUpperCase() || "U"}
+                  </AvatarFallback>
+                </Avatar>
+                <div className="text-center">
+                  <div className="text-[#C9A84C] font-semibold text-base">{user?.name || "-"}</div>
+                  <div className="text-gray-400 text-xs">{user?.email || "-"}</div>
+                </div>
+              </div>
+            </DialogContent>
+          </Dialog>
+        </div>
+      )}
       {/* Custom Cursor */}
       {/* Scroll Progress */}
       <div id="scroll-progress" style={{ width: '0%' }} />

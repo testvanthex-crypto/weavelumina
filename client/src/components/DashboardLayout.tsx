@@ -26,6 +26,9 @@ import { useLocation } from "wouter";
 import { DashboardLayoutSkeleton } from './DashboardLayoutSkeleton';
 import { Button } from "./ui/button";
 
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "./ui/dialog";
+import { User } from "lucide-react";
+
 const menuItems = [
   { icon: LayoutDashboard, label: "Page 1", path: "/" },
   { icon: Users, label: "Page 2", path: "/some-path" },
@@ -106,6 +109,7 @@ function DashboardLayoutContent({
   children,
   setSidebarWidth,
 }: DashboardLayoutContentProps) {
+  const [profileOpen, setProfileOpen] = useState(false);
   const { user, logout } = useAuth();
   const [location, setLocation] = useLocation();
   const { state, toggleSidebar } = useSidebar();
@@ -198,7 +202,46 @@ function DashboardLayoutContent({
                   </SidebarMenuItem>
                 );
               })}
+              {/* Profile Button */}
+              <SidebarMenuItem>
+                <SidebarMenuButton
+                  isActive={false}
+                  onClick={() => setProfileOpen(true)}
+                  tooltip="Profile"
+                  className="h-10 transition-all font-normal group"
+                  style={{ position: "relative", overflow: "hidden" }}
+                >
+                  <User className="h-4 w-4 text-[#C9A84C] group-hover:scale-110 transition-transform duration-300" />
+                  <span className="text-[#C9A84C] group-hover:text-[#D4B85C] transition-colors duration-300">Profile</span>
+                  {/* Fade-in animation overlay */}
+                  <span
+                    className="absolute inset-0 bg-[#C9A84C]/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
+                    aria-hidden="true"
+                  />
+                </SidebarMenuButton>
+              </SidebarMenuItem>
             </SidebarMenu>
+                {/* Profile Dialog */}
+                <Dialog open={profileOpen} onOpenChange={setProfileOpen}>
+                  <DialogContent className="max-w-xs bg-[#111] border border-[#C9A84C] animate-fade-in rounded-xl shadow-2xl">
+                    <DialogHeader>
+                      <DialogTitle className="text-[#C9A84C] text-lg flex items-center gap-2">
+                        <User className="h-5 w-5" /> My Profile
+                      </DialogTitle>
+                    </DialogHeader>
+                    <div className="flex flex-col items-center gap-3 py-2">
+                      <Avatar className="h-14 w-14 border border-[#C9A84C]">
+                        <AvatarFallback className="text-2xl font-bold text-[#C9A84C] bg-[#222]">
+                          {user?.name?.charAt(0).toUpperCase() || user?.email?.charAt(0).toUpperCase() || "U"}
+                        </AvatarFallback>
+                      </Avatar>
+                      <div className="text-center">
+                        <div className="text-[#C9A84C] font-semibold text-base">{user?.name || "-"}</div>
+                        <div className="text-gray-400 text-xs">{user?.email || "-"}</div>
+                      </div>
+                    </div>
+                  </DialogContent>
+                </Dialog>
           </SidebarContent>
 
           <SidebarFooter className="p-3">
