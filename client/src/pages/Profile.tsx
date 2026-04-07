@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { useAuth } from "@/_core/hooks/useAuth";
+// Removed useAuth
 import { trpc } from "@/lib/trpc";
 import { useLocation } from "wouter";
 import { format } from "date-fns";

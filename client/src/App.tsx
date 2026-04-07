@@ -8,7 +8,7 @@ import CustomCursor from "./components/CustomCursor";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import Home from "./pages/Home";
 import Dashboard from "./pages/Dashboard";
-import Login from "./pages/Login";
+// Removed Login page
 import Checkout from "./pages/Checkout";
 import Profile from "./pages/Profile";
 
@@ -18,7 +18,7 @@ function Router() {
     <WouterRouter hook={useHashLocation}>
       <Switch>
         <Route path={"/"} component={Home} />
-        <Route path={"/login"} component={Login} />
+        {/* Removed Login route */}
         <Route path={"/checkout"} component={Checkout} />
         <Route path={"/dashboard"} component={Dashboard} />
         <Route path={"/profile"} component={Profile} />

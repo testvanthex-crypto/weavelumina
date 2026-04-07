@@ -1,4 +1,4 @@
-import { useAuth } from '@/_core/hooks/useAuth';
+// Removed useAuth
 import DashboardLayout from '@/components/DashboardLayout';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -7,21 +7,7 @@ import { format } from 'date-fns';
 import { Loader2 } from 'lucide-react';
 
 export default function Dashboard() {
-  const { user } = useAuth({ redirectOnUnauthenticated: true, redirectPath: "/login" });
-  const { data: leads, isLoading } = trpc.leads.list.useQuery(undefined, {
-    enabled: !!user && user.role === 'admin',
-  });
-
-  if (!user || user.role !== 'admin') {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-[#050505] text-white">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold mb-4">Access Denied</h1>
-          <p className="text-gray-400">You don't have permission to view this page.</p>
-        </div>
-      </div>
-    );
-  }
+  const { data: leads, isLoading } = trpc.leads.list.useQuery();
 
   return (
     <DashboardLayout>
