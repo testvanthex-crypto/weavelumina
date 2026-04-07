@@ -113,6 +113,9 @@ importers:
       cmdk:
         specifier: ^1.1.1
         version: 1.1.1(@types/react-dom@19.2.1(@types/react@19.2.1))(@types/react@19.2.1)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+      date-fns:
+        specifier: ^4.1.0
+        version: 4.1.0
       embla-carousel-react:
         specifier: ^8.6.0
         version: 8.6.0(react@19.2.4)
@@ -128,9 +131,15 @@ importers:
       next-themes:
         specifier: ^0.4.6
         version: 0.4.6(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+      react:
+        specifier: ^19.2.4
+        version: 19.2.4
       react-day-picker:
         specifier: ^9.14.0
         version: 9.14.0(react@19.2.4)
+      react-dom:
+        specifier: ^19.2.4
+        version: 19.2.4(react@19.2.4)
       react-hook-form:
         specifier: ^7.72.1
         version: 7.72.1(react@19.2.4)
