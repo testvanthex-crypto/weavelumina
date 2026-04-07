@@ -20,7 +20,7 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import { useIsMobile } from "@/hooks/useMobile";
-import { LayoutDashboard, LogOut, PanelLeft, Users } from "lucide-react";
+import { LayoutDashboard, LogOut, PanelLeft, Users, UserCircle } from "lucide-react";
 import { CSSProperties, useEffect, useRef, useState } from "react";
 import { useLocation } from "wouter";
 import { DashboardLayoutSkeleton } from './DashboardLayoutSkeleton';
@@ -205,15 +205,14 @@ function DashboardLayoutContent({
               {/* Profile Button */}
               <SidebarMenuItem>
                 <SidebarMenuButton
-                  isActive={false}
-                  onClick={() => setProfileOpen(true)}
-                  tooltip="Profile"
+                  isActive={location === "/profile"}
+                  onClick={() => setLocation("/profile")}
+                  tooltip="My Profile"
                   className="h-10 transition-all font-normal group"
                   style={{ position: "relative", overflow: "hidden" }}
                 >
                   <User className="h-4 w-4 text-[#C9A84C] group-hover:scale-110 transition-transform duration-300" />
-                  <span className="text-[#C9A84C] group-hover:text-[#D4B85C] transition-colors duration-300">Profile</span>
-                  {/* Fade-in animation overlay */}
+                  <span className="text-[#C9A84C] group-hover:text-[#D4B85C] transition-colors duration-300">My Profile</span>
                   <span
                     className="absolute inset-0 bg-[#C9A84C]/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
                     aria-hidden="true"
@@ -221,27 +220,40 @@ function DashboardLayoutContent({
                 </SidebarMenuButton>
               </SidebarMenuItem>
             </SidebarMenu>
-                {/* Profile Dialog */}
-                <Dialog open={profileOpen} onOpenChange={setProfileOpen}>
-                  <DialogContent className="max-w-xs bg-[#111] border border-[#C9A84C] animate-fade-in rounded-xl shadow-2xl">
-                    <DialogHeader>
-                      <DialogTitle className="text-[#C9A84C] text-lg flex items-center gap-2">
-                        <User className="h-5 w-5" /> My Profile
-                      </DialogTitle>
-                    </DialogHeader>
-                    <div className="flex flex-col items-center gap-3 py-2">
-                      <Avatar className="h-14 w-14 border border-[#C9A84C]">
-                        <AvatarFallback className="text-2xl font-bold text-[#C9A84C] bg-[#222]">
-                          {user?.name?.charAt(0).toUpperCase() || user?.email?.charAt(0).toUpperCase() || "U"}
-                        </AvatarFallback>
-                      </Avatar>
-                      <div className="text-center">
-                        <div className="text-[#C9A84C] font-semibold text-base">{user?.name || "-"}</div>
-                        <div className="text-gray-400 text-xs">{user?.email || "-"}</div>
-                      </div>
+
+            {/* Quick Profile Peek Dialog — kept for mobile/collapsed sidebar */}
+            <Dialog open={profileOpen} onOpenChange={setProfileOpen}>
+              <DialogContent className="max-w-xs border border-[#2a2410] rounded-xl shadow-2xl" style={{ background: "linear-gradient(145deg, #0a0a0a, #0f0d05)", boxShadow: "0 0 40px rgba(201,168,76,0.08)" }}>
+                <DialogHeader>
+                  <DialogTitle className="text-[#C9A84C] text-lg flex items-center gap-2">
+                    <User className="h-5 w-5" /> My Profile
+                  </DialogTitle>
+                </DialogHeader>
+                <div className="flex flex-col items-center gap-4 py-3">
+                  <Avatar className="h-16 w-16" style={{ border: "2px solid rgba(201,168,76,0.4)", boxShadow: "0 0 20px rgba(201,168,76,0.15)" }}>
+                    <AvatarFallback className="text-2xl font-bold bg-[#1a1508]" style={{ color: "#C9A84C", fontFamily: "'Cormorant Garamond', serif" }}>
+                      {user?.name?.charAt(0).toUpperCase() || user?.email?.charAt(0).toUpperCase() || "U"}
+                    </AvatarFallback>
+                  </Avatar>
+                  <div className="text-center space-y-1">
+                    <div className="text-white font-semibold text-base">{user?.name || "Anonymous"}</div>
+                    <div className="text-gray-400 text-xs">{user?.email || "—"}</div>
+                    <div className="inline-flex items-center gap-1 text-xs px-2.5 py-0.5 rounded-full mt-1"
+                      style={{ background: "rgba(201,168,76,0.1)", color: "#C9A84C", border: "1px solid rgba(201,168,76,0.25)" }}>
+                      {user?.role === "admin" ? "Administrator" : "Member"}
                     </div>
-                  </DialogContent>
-                </Dialog>
+                  </div>
+                  <button
+                    onClick={() => { setProfileOpen(false); setLocation("/profile"); }}
+                    className="w-full py-2.5 rounded-lg text-sm font-semibold flex items-center justify-center gap-2 transition-all hover:opacity-90"
+                    style={{ background: "linear-gradient(90deg, #8B7A2E, #C9A84C)", color: "#050505" }}
+                  >
+                    <UserCircle className="h-4 w-4" />
+                    View Full Profile
+                  </button>
+                </div>
+              </DialogContent>
+            </Dialog>
           </SidebarContent>
 
           <SidebarFooter className="p-3">
@@ -264,6 +276,13 @@ function DashboardLayoutContent({
                 </button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-48">
+                <DropdownMenuItem
+                  onClick={() => setLocation("/profile")}
+                  className="cursor-pointer"
+                >
+                  <UserCircle className="mr-2 h-4 w-4 text-[#C9A84C]" />
+                  <span>My Profile</span>
+                </DropdownMenuItem>
                 <DropdownMenuItem
                   onClick={logout}
                   className="cursor-pointer text-destructive focus:text-destructive"

@@ -1,8 +1,9 @@
 import { eq } from 'drizzle-orm';
 import { drizzle } from 'drizzle-orm/mysql2';
 import { nanoid } from 'nanoid';
-import { InsertUser, users, leads, InsertLead, Lead, subscriptions, orders, InsertOrder, InsertSubscription } from '../drizzle/schema';
+import { InsertUser, users, leads, InsertLead, Lead, subscriptions, orders, InsertOrder, InsertSubscription, feedback, InsertFeedback, Feedback } from '../drizzle/schema';
 import { ENV } from './_core/env';
+
 
 let _db: ReturnType<typeof drizzle> | null = null;
 
@@ -198,4 +199,61 @@ export async function createSubscription(data: InsertSubscription) {
   if (!db) return undefined;
   const result = await db.insert(subscriptions).values(data);
   return { ...data, id: result[0].insertId };
+}
+
+export async function getOrdersByUser(userId: number) {
+  const db = await getDb();
+  if (!db) {
+    console.warn('[Database] Cannot get orders: database not available');
+    return [];
+  }
+  try {
+    return await db.select().from(orders).where(eq(orders.userId, userId)).orderBy(orders.createdAt);
+  } catch (error) {
+    console.error('[Database] Failed to get orders by user:', error);
+    throw error;
+  }
+}
+
+export async function getSubscriptionsByUser(userId: number) {
+  const db = await getDb();
+  if (!db) {
+    console.warn('[Database] Cannot get subscriptions: database not available');
+    return [];
+  }
+  try {
+    return await db.select().from(subscriptions).where(eq(subscriptions.userId, userId)).orderBy(subscriptions.createdAt);
+  } catch (error) {
+    console.error('[Database] Failed to get subscriptions by user:', error);
+    throw error;
+  }
+}
+
+export async function createFeedback(data: InsertFeedback): Promise<Feedback | null> {
+  const db = await getDb();
+  if (!db) {
+    console.warn('[Database] Cannot create feedback: database not available');
+    return null;
+  }
+  try {
+    const result = await db.insert(feedback).values(data);
+    return { ...data, id: result[0].insertId } as Feedback;
+  } catch (error) {
+    console.error('[Database] Failed to create feedback:', error);
+    throw error;
+  }
+}
+
+export async function getFeedbackByUser(userId: number): Promise<Feedback[]> {
+  const db = await getDb();
+  if (!db) {
+    console.warn('[Database] Cannot get feedback: database not available');
+    return [];
+  }
+  try {
+    return await db.select().from(feedback).where(eq(feedback.userId, userId)).orderBy(feedback.createdAt);
+  } catch (error) {
+    console.error('[Database] Failed to get feedback by user:', error);
+    throw error;
+  }
 }

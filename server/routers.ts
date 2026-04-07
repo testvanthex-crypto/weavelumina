@@ -1,7 +1,7 @@
 import { TRPCError } from "@trpc/server";
 import { systemRouter } from "./_core/systemRouter";
 import { publicProcedure, protectedProcedure, router } from "./_core/trpc";
-import { createLead, createLocalUser, getLeads, getUserByEmail, upsertUser, updateUserToken, getUserByResetToken, getUserByVerificationToken, getOrderByIdempotencyKey, createOrder, createSubscription } from "./db";
+import { createLead, createLocalUser, getLeads, getUserByEmail, upsertUser, updateUserToken, getUserByResetToken, getUserByVerificationToken, getOrderByIdempotencyKey, createOrder, createSubscription, getOrdersByUser, getSubscriptionsByUser, createFeedback, getFeedbackByUser } from "./db";
 import { generateSecureToken, generateTokenExpiry } from "./auth/tokens";
 import { notifyOwner } from "./_core/notification";
 import { z } from "zod";
@@ -232,6 +232,36 @@ export const appRouter = router({
       }),
     list: protectedProcedure.query(async () => {
       return await getLeads();
+    }),
+  }),
+
+  profile: router({
+    orders: protectedProcedure.query(async ({ ctx }) => {
+      return await getOrdersByUser(ctx.user.id);
+    }),
+    subscriptions: protectedProcedure.query(async ({ ctx }) => {
+      return await getSubscriptionsByUser(ctx.user.id);
+    }),
+  }),
+
+  feedback: router({
+    submit: protectedProcedure
+      .input(z.object({
+        orderId: z.number().optional(),
+        rating: z.number().min(1).max(5),
+        comment: z.string().max(1000).optional(),
+      }))
+      .mutation(async ({ input, ctx }) => {
+        const result = await createFeedback({
+          userId: ctx.user.id,
+          orderId: input.orderId ?? null,
+          rating: input.rating,
+          comment: input.comment ?? null,
+        });
+        return result;
+      }),
+    list: protectedProcedure.query(async ({ ctx }) => {
+      return await getFeedbackByUser(ctx.user.id);
     }),
   }),
 });

@@ -10,6 +10,7 @@ import Home from "./pages/Home";
 import Dashboard from "./pages/Dashboard";
 import Login from "./pages/Login";
 import Checkout from "./pages/Checkout";
+import Profile from "./pages/Profile";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -20,6 +21,7 @@ function Router() {
         <Route path={"/login"} component={Login} />
         <Route path={"/checkout"} component={Checkout} />
         <Route path={"/dashboard"} component={Dashboard} />
+        <Route path={"/profile"} component={Profile} />
         <Route path={"/404"} component={NotFound} />
         {/* Final fallback route */}
         <Route component={NotFound} />
