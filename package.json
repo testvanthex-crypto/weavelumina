@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "npx cross-env NODE_ENV=development tsx watch server/_core/index.ts",
     "build": "npx cross-env NODE_ENV=production vite build && esbuild server/_core/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist",
-    "postbuild": "node -e \"const fs = require('fs'); const path = require('path'); const src = path.join('dist','public'); const dest = 'public'; fs.copyFileSync(path.join(src,'index.html'), path.join(src,'404.html')); fs.rmSync(dest,{recursive:true,force:true}); fs.cpSync(src,dest,{recursive:true});\"",
+    "postbuild": "node -e \"const fs = require('fs'); const path = require('path'); const dir = 'dist'; fs.copyFileSync(path.join(dir,'index.html'), path.join(dir,'404.html'));\"",
     "build:netlify": "npx cross-env NODE_ENV=production vite build && esbuild netlify/functions/server.ts --bundle --platform=node --target=node18 --outfile=netlify/functions/server.js",
     "start": "npx cross-env NODE_ENV=production node dist/index.js",
     "deploy": "pnpm build && npx gh-pages -d dist/public",
