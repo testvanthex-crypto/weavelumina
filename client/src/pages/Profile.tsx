@@ -117,7 +117,7 @@ type TabId = (typeof TABS)[number]["id"];
 // ─── Main Component ───────────────────────────────────────────────────────────
 
 export default function Profile() {
-  const { user } = useAuth({ redirectOnUnauthenticated: true, redirectPath: "/login" });
+  // const { user } = useAuth({ redirectOnUnauthenticated: true, redirectPath: "/login" }); // Auth system removed
   const [, setLocation] = useLocation();
   const [activeTab, setActiveTab] = useState<TabId>("overview");
   const [feedbackOpen, setFeedbackOpen] = useState(false);

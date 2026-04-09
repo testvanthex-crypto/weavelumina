@@ -15,12 +15,36 @@ gsap.registerPlugin(ScrollTrigger);
 
 /* ===== DATA ===== */
 const SERVICES = [
-  { icon: '🎨', title: 'Custom Web Design', desc: 'Bespoke designs that capture your brand essence and convert visitors into loyal customers.' },
-  { icon: '⚡', title: 'Speed Optimization', desc: 'Lightning-fast load times that keep visitors engaged and boost your search rankings.' },
-  { icon: '📱', title: 'Responsive Development', desc: 'Pixel-perfect experiences across every device, from mobile to ultrawide displays.' },
-  { icon: '🔍', title: 'SEO Strategy', desc: 'Data-driven optimization that puts your business in front of the right audience.' },
-  { icon: '📈', title: 'Sales Funnel Design', desc: 'Strategic conversion paths that turn cold traffic into paying customers.' },
-  { icon: '🛡️', title: 'Maintenance & Support', desc: '24/7 monitoring, updates, and dedicated support to keep your site running flawlessly.' },
+  {
+    icon: '🎨',
+    title: 'Custom Design',
+    desc: `Don't look like everyone else. Own a digital space that makes your competitors jealous.`
+  },
+  {
+    icon: '⚡',
+    title: 'Speed Optimization',
+    desc: `Because if your site takes more than 3 seconds to load, your customers are buying from your competitor.`
+  },
+  {
+    icon: '📱',
+    title: 'Responsive Development',
+    desc: `Flawless on iPhones, Androids, and desktops. Never lose a mobile lead again.`
+  },
+  {
+    icon: '🔍',
+    title: 'SEO Strategy',
+    desc: `Show up where it matters. Get found by the right people, not just anyone.`
+  },
+  {
+    icon: '📈',
+    title: 'Sales Funnel Design',
+    desc: `Turn cold traffic into paying clients with strategic conversion paths.`
+  },
+  {
+    icon: '🛡️',
+    title: 'Maintenance & Support',
+    desc: `Sleep easy. We handle updates, security, and support so you never worry about your site.`
+  },
 ];
 
 const PROCESS_STEPS = [
@@ -56,16 +80,31 @@ const PRICING = [
 ];
 
 const TESTIMONIALS = [
-  { name: 'Sarah Chen', role: 'CEO, NovaTech', text: 'LuminaWeave transformed our online presence completely. Our conversion rate increased by 340% within the first month. Absolutely world-class work.', stars: 5 },
-  { name: 'Marcus Johnson', role: 'Founder, FitPro', text: 'The attention to detail is unmatched. Every animation, every interaction — it all feels intentional and premium. Our members love the new experience.', stars: 5 },
-  { name: 'Elena Rodriguez', role: 'CMO, Luxe Boutique', text: 'Working with LuminaWeave was a game-changer. They don\'t just build websites — they build revenue machines. Our sales doubled in 60 days.', stars: 5 },
+  {
+    name: 'James Patel',
+    role: 'Owner, Urban Realty',
+    text: `I was embarrassed by my old site. The LuminaWeave team made the process so easy—no tech talk, just results. We landed 4 new clients in the first week. I finally feel proud to share my link.`,
+    stars: 5
+  },
+  {
+    name: 'Linda Gomez',
+    role: 'Director, Bloom Spa',
+    text: `Every designer before them was slow and full of excuses. These guys delivered in 6 days flat. My bookings doubled and my stress disappeared. Worth every penny.`,
+    stars: 5
+  },
+  {
+    name: 'Alexei Morozov',
+    role: 'Founder, TechNest',
+    text: `I hate dealing with websites. LuminaWeave handled everything, explained nothing I didn’t need, and my leads are up 3x. I wish I’d found them sooner.`,
+    stars: 5
+  },
 ];
 
 const STATS = [
-  { value: 150, suffix: '+', label: 'Websites Launched' },
-  { value: 98, suffix: '%', label: 'Client Satisfaction' },
-  { value: 7, suffix: '', label: 'Day Avg. Delivery' },
-  { value: 799, suffix: '', label: 'Starting at $' },
+  { value: 150, suffix: '+', label: 'Revenue-Generating Sites Launched' },
+  { value: 98, suffix: '%', label: 'Client Return Rate' },
+  { value: 7, suffix: '', label: 'Days From Concept to Live' },
+  { value: 799, suffix: '', label: '$ All-In Starting Price' },
 ];
 
 /* ===== HELPER: Ripple Effect ===== */
@@ -256,7 +295,7 @@ function TestimonialCard({ testimonial, index }: { testimonial: typeof TESTIMONI
 
 /* ===== MAIN HOME COMPONENT ===== */
 export default function Home() {
-  const { user } = useAuth();
+  // Auth system removed; no user object
   const [profileOpen, setProfileOpen] = useState(false);
   const threeCanvasRef = useRef<HTMLCanvasElement>(null);
   const [preloaderDone, setPreloaderDone] = useState(false);
@@ -454,43 +493,7 @@ export default function Home() {
 
   return (
     <>
-      {user && (
-        <div className="fixed top-6 right-6 z-50 animate-fade-in">
-          <button
-            onClick={() => setProfileOpen(true)}
-            className="flex items-center gap-2 px-4 py-2 rounded-full bg-[#111] border border-[#C9A84C] shadow-lg hover:bg-[#222] transition-all group"
-            style={{ boxShadow: '0 2px 16px 0 rgba(201,168,76,0.10)' }}
-          >
-            <Avatar className="h-7 w-7 border border-[#C9A84C]">
-              <AvatarFallback className="text-base font-bold text-[#C9A84C] bg-[#222]">
-                {user?.name?.charAt(0).toUpperCase() || user?.email?.charAt(0).toUpperCase() || "U"}
-              </AvatarFallback>
-            </Avatar>
-            <span className="text-[#C9A84C] font-semibold group-hover:text-[#D4B85C] transition-colors">Profile</span>
-            <User className="h-4 w-4 text-[#C9A84C] group-hover:scale-110 transition-transform duration-300" />
-          </button>
-          <Dialog open={profileOpen} onOpenChange={setProfileOpen}>
-            <DialogContent className="max-w-xs bg-[#111] border border-[#C9A84C] animate-fade-in rounded-xl shadow-2xl">
-              <DialogHeader>
-                <DialogTitle className="text-[#C9A84C] text-lg flex items-center gap-2">
-                  <User className="h-5 w-5" /> My Profile
-                </DialogTitle>
-              </DialogHeader>
-              <div className="flex flex-col items-center gap-3 py-2">
-                <Avatar className="h-14 w-14 border border-[#C9A84C]">
-                  <AvatarFallback className="text-2xl font-bold text-[#C9A84C] bg-[#222]">
-                    {user?.name?.charAt(0).toUpperCase() || user?.email?.charAt(0).toUpperCase() || "U"}
-                  </AvatarFallback>
-                </Avatar>
-                <div className="text-center">
-                  <div className="text-[#C9A84C] font-semibold text-base">{user?.name || "-"}</div>
-                  <div className="text-gray-400 text-xs">{user?.email || "-"}</div>
-                </div>
-              </div>
-            </DialogContent>
-          </Dialog>
-        </div>
-      )}
+
       {/* Custom Cursor */}
       {/* Scroll Progress */}
       <div id="scroll-progress" style={{ width: '0%' }} />
@@ -504,8 +507,13 @@ export default function Home() {
         <div className="text-gray-600 text-xs mt-4 tracking-widest">{preloaderProgress}%</div>
       </div>
 
+      {/* Header Notification Bar (Scarcity) */}
+      <div className="w-full bg-[#1a1a1a] text-center py-2 text-sm font-semibold text-[#C9A84C] tracking-wide">
+        🔴 Only 2 client slots open for {new Date().toLocaleString('default', { month: 'long' })}.
+      </div>
+
       {/* Navigation */}
-      <nav className="nav-glass fixed top-0 left-0 right-0 z-[9999] transition-all duration-300">
+      <nav className="nav-glass fixed top-8 left-0 right-0 z-[9999] transition-all duration-300">
         <div className="max-w-7xl mx-auto px-6 flex items-center justify-between h-16">
           <button onClick={() => scrollTo('home')} className="interactive text-xl font-semibold text-[#C9A84C]" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
             LuminaWeave
@@ -524,12 +532,7 @@ export default function Home() {
             ))}
           </div>
           <div className="hidden md:flex items-center gap-3">
-            <button
-              onClick={() => { setLocation('/login'); }}
-              className="btn-ripple border border-[#C9A84C]/40 text-[#C9A84C] px-4 py-2 rounded-lg text-sm font-semibold hover:bg-[#C9A84C]/10 transition-colors interactive"
-            >
-              CLIENT LOGIN
-            </button>
+            {/* Client Login button removed */}
             <button
               onClick={() => { setLocation('/checkout'); }}
               className="btn-ripple border border-[#C9A84C]/40 text-[#C9A84C] px-4 py-2 rounded-lg text-sm font-semibold hover:bg-[#C9A84C]/10 transition-colors interactive"
@@ -564,12 +567,7 @@ export default function Home() {
               {link.label}
             </button>
           ))}
-          <button
-            onClick={() => { setMobileMenuOpen(false); setLocation('/login'); }}
-            className="text-xl text-[#C9A84C] hover:text-white transition-colors uppercase tracking-widest"
-          >
-            Client Login
-          </button>
+          {/* Client Login button removed from mobile menu */}
           <button
             onClick={() => { setMobileMenuOpen(false); setLocation('/checkout'); }}
             className="text-xl text-[#C9A84C] hover:text-white transition-colors uppercase tracking-widest"
@@ -591,26 +589,22 @@ export default function Home() {
         <div className="relative z-10 text-center max-w-5xl mx-auto px-6">
           <div className="hero-badge inline-flex items-center gap-2 bg-[#C9A84C]/10 border border-[#C9A84C]/30 rounded-full px-5 py-2 mb-8">
             <span className="w-2 h-2 bg-[#C9A84C] rounded-full animate-pulse" />
-            <span className="text-[#C9A84C] text-xs uppercase tracking-widest">Available for New Projects</span>
+            <span className="text-[#C9A84C] text-xs uppercase tracking-widest">🔴 Only 2 client slots open for {new Date().toLocaleString('default', { month: 'long' })}.</span>
           </div>
           <h1 className="mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
             <div className="hero-title-line text-5xl md:text-7xl lg:text-8xl font-light text-white leading-tight">
-              Websites That
-            </div>
-            <div className="hero-title-line text-5xl md:text-7xl lg:text-8xl font-light leading-tight">
-              <span className="shimmer-gold">Convert & Captivate</span>
+              Stop Losing Clients to Ugly, Slow Websites.
             </div>
           </h1>
           <p className="hero-subtitle text-gray-400 text-lg md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed">
-            Premium web design & sales strategy. 150+ websites launched. 7-day delivery.
-            Starting at $799. Your growth starts here.
+            Let’s be honest: your website should be your hardest-working employee. It should sell for you while you sleep. We blend premium aesthetics with ruthless sales psychology to build you a client-generating machine. Launched in 7 days. No headaches. No jargon.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <button
               onClick={(e) => { createRipple(e); scrollTo('pricing'); }}
               className="hero-cta btn-ripple interactive bg-[#C9A84C] text-[#050505] px-8 py-4 rounded-lg font-semibold text-sm uppercase tracking-wider hover:bg-[#D4B85C] transition-all duration-300 hover:shadow-[0_0_30px_rgba(201,168,76,0.3)]"
             >
-              View Pricing Plans
+              Claim Your Design Slot →
             </button>
           </div>
           <div className="hero-scroll mt-16 scroll-indicator">
@@ -722,6 +716,38 @@ export default function Home() {
             {SERVICES.map((service, i) => (
               <ServiceCard key={i} {...service} index={i} />
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ===== WHY CHOOSE US SECTION ===== */}
+      <section className="py-24 md:py-32 bg-[#0a0a0a]">
+        <div className="max-w-5xl mx-auto px-6">
+          <div className="text-center mb-16">
+            <span className="reveal-up text-[#C9A84C] text-xs uppercase tracking-widest">Why Choose Us</span>
+            <h2 className="reveal-up text-4xl md:text-5xl font-light text-white mt-4" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+              Stress-Free, Premium Results
+            </h2>
+          </div>
+          <div className="bg-[#0f0f0f] border border-[#1a1a1a] rounded-2xl p-10 shadow-[0_10px_40px_rgba(0,0,0,0.35)] text-center mx-auto max-w-3xl">
+            <p className="text-lg text-gray-300 mb-6">We know you’re busy. That’s why we handle everything—from strategy to launch—so you never have to chase us for updates or learn confusing tech jargon. Our process is transparent, fast, and built for business owners who want results, not headaches. You’ll always know what’s happening, and you’ll always get what you were promised—on time, every time.</p>
+            <div className="flex flex-col md:flex-row gap-8 justify-center mt-8">
+              <div className="flex-1">
+                <span className="block text-[#C9A84C] text-2xl mb-2">⚡</span>
+                <div className="text-white font-semibold mb-1">7-Day Delivery Guarantee</div>
+                <div className="text-gray-400 text-sm">We launch your site in a week or you get 20% off. No delays, no drama.</div>
+              </div>
+              <div className="flex-1">
+                <span className="block text-[#C9A84C] text-2xl mb-2">🤝</span>
+                <div className="text-white font-semibold mb-1">No Tech Headaches</div>
+                <div className="text-gray-400 text-sm">We speak your language, not code. You focus on your business, we handle the rest.</div>
+              </div>
+              <div className="flex-1">
+                <span className="block text-[#C9A84C] text-2xl mb-2">💰</span>
+                <div className="text-white font-semibold mb-1">Transparent Pricing</div>
+                <div className="text-gray-400 text-sm">No hidden fees. No surprise invoices. Just honest, all-in pricing.</div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -869,11 +895,10 @@ export default function Home() {
             <div className="reveal-left">
               <span className="text-[#C9A84C] text-xs uppercase tracking-widest">Get In Touch</span>
               <h2 className="text-4xl md:text-5xl font-light text-white mt-4 mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
-                Let's Build Something <span className="shimmer-gold">Extraordinary</span>
+                Ready to Partner Up?
               </h2>
               <p className="text-gray-400 leading-relaxed mb-8">
-                Ready to transform your online presence? Fill out the form and we'll get back to you within 24 hours
-                with a custom proposal tailored to your business goals.
+                This isn’t just a contact form—it’s the start of a partnership. Tell us where you want your business to go, and we’ll help you get there. Click below and let’s build something that makes your competitors jealous.
               </p>
               <div className="space-y-4">
                 <div className="flex items-center gap-4">

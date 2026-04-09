@@ -30,7 +30,7 @@ const trpcClient = trpc.createClient({
     httpBatchLink({
       url:
         process.env.NODE_ENV === "production"
-          ? "https://weavelumina.vercel.app/api/trpc"
+          ? "https://luminaweave-pro.vercel.app/api/trpc"
           : "/api/trpc",
       transformer: superjson,
       fetch(input, init) {

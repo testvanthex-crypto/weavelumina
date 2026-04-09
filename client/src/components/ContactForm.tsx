@@ -104,9 +104,9 @@ export default function ContactForm({ selectedPlan, onSuccess }: ContactFormProp
             <SelectValue placeholder="Select a plan" />
           </SelectTrigger>
           <SelectContent className="bg-[#1a1a1a] border-[#2a2a2a]">
-            <SelectItem value="Spark Starter">Spark Starter — $99</SelectItem>
-            <SelectItem value="Growth Accelerator">Growth Accelerator — $199</SelectItem>
-            <SelectItem value="Boost Builder">Boost Builder — $249</SelectItem>
+            <SelectItem value="Spark Starter">Spark Starter — $799</SelectItem>
+            <SelectItem value="Growth Accelerator">Growth Accelerator — $1999</SelectItem>
+            <SelectItem value="Boost Builder">Boost Builder — $1599</SelectItem>
             <SelectItem value="Custom Project">Custom Project</SelectItem>
           </SelectContent>
         </Select>
