@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "npx cross-env NODE_ENV=development tsx watch server/_core/index.ts",
     "build": "npx cross-env NODE_ENV=production vite build && esbuild server/_core/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist",
-    "postbuild": "node -e \"const fs = require('fs'); const path = require('path'); const dir = 'dist'; fs.copyFileSync(path.join(dir,'index.html'), path.join(dir,'404.html'));\"",
+    "postbuild": "node -e \"const fs=require('fs');const path=require('path');const dir='dist';fs.copyFileSync(path.join(dir,'index.html'),path.join(dir,'404.html'));const outDir=path.join('.vercel','output');const staticDir=path.join(outDir,'static');fs.rmSync(outDir,{recursive:true,force:true});fs.mkdirSync(staticDir,{recursive:true});fs.cpSync(dir,staticDir,{recursive:true});const config={version:3,routes:[{handle:'filesystem'},{src:'/(.*)',dest:'/$1'}]};fs.writeFileSync(path.join(outDir,'config.json'),JSON.stringify(config,null,2));\"",
     "build:netlify": "npx cross-env NODE_ENV=production vite build && esbuild netlify/functions/server.ts --bundle --platform=node --target=node18 --outfile=netlify/functions/server.js",
     "start": "npx cross-env NODE_ENV=production node dist/index.js",
     "deploy": "pnpm build && npx gh-pages -d dist/public",
